@@ -13,7 +13,7 @@ public class RdfTransformer {
 		URI bob = factory.createURI("http://example.org/bob");
 		URI name = factory.createURI("http://example.org/name");
 		Literal bobsName = factory.createLiteral("Bob");
-		Statement nameStatement = factory.createStatement(bob, name, bobsName);
+	//	Statement nameStatement = factory.createStatement(bob, name, bobsName);
 		
 	}
 
