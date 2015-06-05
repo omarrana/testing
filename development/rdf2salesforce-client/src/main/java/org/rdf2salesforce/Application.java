@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.openrdf.model.impl.BNodeImpl;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.http.client.ClientHttpResponse;
@@ -16,6 +17,7 @@ public class Application {
         RestTemplate restTemplate = new RestTemplate();
         ClientHttpRequest request = restTemplate.getRequestFactory().createRequest(new URI("http://na1.salesforce.com/services/data/"), HttpMethod.GET);
         ClientHttpResponse response = request.execute();
+        System.out.println(response.getStatusText());
     }
 
 }
