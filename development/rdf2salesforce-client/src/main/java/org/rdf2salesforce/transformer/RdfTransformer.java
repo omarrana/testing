@@ -1,7 +1,6 @@
 package org.rdf2salesforce.transformer;
 
 import org.openrdf.model.Literal;
-import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.ValueFactoryImpl;
 
