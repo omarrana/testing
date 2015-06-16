@@ -14,7 +14,7 @@ public class Application {
 
     public static void main(String args[]) throws IOException, URISyntaxException {
         RestTemplate restTemplate = new RestTemplate();
-        ClientHttpRequest request = restTemplate.getRequestFactory().createRequest(new URI("http://na1.salesforce.com/services/data/"), HttpMethod.GET);
+        ClientHttpRequest request = restTemplate.getRequestFactory().createRequest(new URI("https://eu5.salesforce.com/services/data/"), HttpMethod.GET);
         ClientHttpResponse response = request.execute();
         System.out.println(response.getStatusText());
     }
