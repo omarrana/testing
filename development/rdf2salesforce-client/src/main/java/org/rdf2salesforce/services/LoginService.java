@@ -1,5 +1,6 @@
-package org.rdf2salesforce;
+package org.rdf2salesforce.services;
 
+import org.rdf2salesforce.AccessToken;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

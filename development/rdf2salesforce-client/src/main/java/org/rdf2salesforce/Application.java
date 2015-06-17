@@ -1,5 +1,6 @@
 package org.rdf2salesforce;
 
+import org.rdf2salesforce.services.LoginService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;

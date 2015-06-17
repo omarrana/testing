@@ -1,4 +1,4 @@
-package org.rdf2salesforce;
+package org.rdf2salesforce.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
