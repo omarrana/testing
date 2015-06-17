@@ -1,22 +1,19 @@
 package org.rdf2salesforce;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import org.springframework.http.HttpMethod;
-import org.springframework.http.client.ClientHttpRequest;
-import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 
 
+
+@SpringBootApplication
 public class Application {
 
-    public static void main(String args[]) throws IOException, URISyntaxException {
-        RestTemplate restTemplate = new RestTemplate();
-        ClientHttpRequest request = restTemplate.getRequestFactory().createRequest(new URI("http://na1.salesforce.com/services/data/"), HttpMethod.GET);
-        ClientHttpResponse response = request.execute();
-        System.out.println(response.getStatusText());
+    public static void main(String args[]){
+    	ApplicationContext ctx = SpringApplication.run(Application.class, args);
+    	LoginService loginService = ctx.getBean(LoginService.class);
+    	AccessToken token = loginService.getToken().getBody();
+    	System.out.println(token);
     }
 
 }
