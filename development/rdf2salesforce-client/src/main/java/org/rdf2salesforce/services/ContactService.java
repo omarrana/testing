@@ -1,7 +1,6 @@
 package org.rdf2salesforce.services;
 
 import org.rdf2salesforce.AccessToken;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
