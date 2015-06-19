@@ -1,10 +1,6 @@
 package org.rdf2salesforce.services;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.rdf2salesforce.AccessToken;
-import org.rdf2salesforce.model.Contact;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -18,7 +14,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class ContactService {
 	
 	public String getAll(AccessToken token){
-		List<String> result = new LinkedList<>();
 		RestTemplate restTemplate = new RestTemplate();
 		UriComponentsBuilder builder = UriComponentsBuilder
 				.fromHttpUrl(token.getInstanceUrl()+ "/services/data/v34.0/query/")
