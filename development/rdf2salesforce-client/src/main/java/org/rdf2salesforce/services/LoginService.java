@@ -16,16 +16,16 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class LoginService {
 	
 	@Autowired
-	private AppConfig config;
+	private AppConfig appConfig;
 
 	public ResponseEntity<AccessToken> getToken() {
 		RestTemplate restTemplate = new RestTemplate();
 		UriComponentsBuilder builder = UriComponentsBuilder
-				.fromHttpUrl(config.LOGIN_URL).queryParam("grant_type", "password")
-				.queryParam("client_id", config.CLIENT_ID)
-				.queryParam("client_secret", config.CLIENT_SECRET)
-				.queryParam("username", config.USERNAME)
-				.queryParam("password", config.PASSWORD);
+				.fromHttpUrl(appConfig.LOGIN_URL).queryParam("grant_type", "password")
+				.queryParam("client_id", appConfig.CLIENT_ID)
+				.queryParam("client_secret", appConfig.CLIENT_SECRET)
+				.queryParam("username", appConfig.USERNAME)
+				.queryParam("password", appConfig.PASSWORD);
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
 		HttpEntity<?> entity = new HttpEntity<>(headers);

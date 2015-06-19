@@ -1,6 +1,8 @@
 package org.rdf2salesforce.services;
 
 import org.rdf2salesforce.AccessToken;
+import org.rdf2salesforce.config.AppConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -13,11 +15,14 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Service
 public class ContactService {
 	
+	@Autowired
+	private AppConfig appConfig;
+	
 	public String getAll(AccessToken token){
 		RestTemplate restTemplate = new RestTemplate();
 		UriComponentsBuilder builder = UriComponentsBuilder
 				.fromHttpUrl(token.getInstanceUrl()+ "/services/data/v34.0/query/")
-				.queryParam("q", "SELECT Name FROM Contact LIMIT 10");
+				.queryParam("q", appConfig.CONTACT_QUERY_ALL);
 		System.out.println(builder.build().encode().toString());
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);

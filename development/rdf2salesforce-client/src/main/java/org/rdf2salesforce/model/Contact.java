@@ -1,7 +1,5 @@
 package org.rdf2salesforce.model;
 
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -11,7 +9,6 @@ public class Contact {
 	private String department;
 	private String description;
 	private String name;
-	private Date birthday;
     private String firstName;
 	private String lastName;
 	private String mailingCity;
@@ -25,6 +22,7 @@ public class Contact {
 	private String fax;
 	private String mobilePhone;
 	private String email;
+	
 	public String getAccountId() {
 		return accountId;
 	}
@@ -48,12 +46,6 @@ public class Contact {
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	public Date getBirthday() {
-		return birthday;
-	}
-	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
 	}
 	public String getFirstName() {
 		return firstName;

@@ -1,8 +1,5 @@
 package org.rdf2salesforce;
 
-import java.util.List;
-
-import org.rdf2salesforce.model.Contact;
 import org.rdf2salesforce.services.ContactService;
 import org.rdf2salesforce.services.LoginService;
 import org.springframework.boot.SpringApplication;

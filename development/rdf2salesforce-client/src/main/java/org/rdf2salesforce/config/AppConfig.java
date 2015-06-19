@@ -18,6 +18,9 @@ public class AppConfig {
 	@Value("${login_url}")
 	public String LOGIN_URL;
 	
+	@Value("${contact.query.all}")
+	public String CONTACT_QUERY_ALL;
+	
 	
 	
 
