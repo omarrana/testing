@@ -28,9 +28,7 @@ public class ContactService {
 				.fromHttpUrl(token.getInstanceUrl()+ "/services/data/v34.0/query/")
 				.queryParam("q", appConfig.CONTACT_QUERY_ALL);
 		System.out.println(builder.build().encode().toString());
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
-		headers.set("Authorization", token.getTokenType()+ " " + token.getAccessToken());
+		HttpHeaders headers = createHeaders(token);
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 		ResponseEntity<ContactResponse> exchange = restTemplate.exchange(builder
 				.build().encode().toUri(), HttpMethod.GET, entity,
@@ -43,14 +41,19 @@ public class ContactService {
 		UriComponentsBuilder builder = UriComponentsBuilder
 				.fromHttpUrl(token.getInstanceUrl()+ "/services/data/v34.0/sobjects/Contact/"+contactId);
 		System.out.println(builder.build().encode().toString());
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
-		headers.set("Authorization", token.getTokenType()+ " " + token.getAccessToken());
+		HttpHeaders headers = createHeaders(token);
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 		ResponseEntity<Contact> exchange = restTemplate.exchange(builder
 				.build().encode().toUri(), HttpMethod.GET, entity,
 				Contact.class);
 		return exchange.getBody();
+	}
+
+	private HttpHeaders createHeaders(AccessToken token) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+		headers.set("Authorization", token.getTokenType()+ " " + token.getAccessToken());
+		return headers;
 	}
 
 }
