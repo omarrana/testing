@@ -23,9 +23,6 @@ public class Application {
     	List<Contact> allContacts = contactService.getAll(token);
     	allContacts.forEach(contact -> System.out.println(contact.getName()));
     	
-    	Contact contact = contactService.getContactById(allContacts.get(0).getId(), token);
-    	System.out.println(contact);
-    	
     }
 
 }
