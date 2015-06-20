@@ -1,7 +1,11 @@
 package org.rdf2salesforce.services;
 
+import java.util.List;
+
 import org.rdf2salesforce.AccessToken;
 import org.rdf2salesforce.config.AppConfig;
+import org.rdf2salesforce.model.Contact;
+import org.rdf2salesforce.model.ContactResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,7 +22,7 @@ public class ContactService {
 	@Autowired
 	private AppConfig appConfig;
 	
-	public String getAll(AccessToken token){
+	public List<Contact> getAll(AccessToken token){
 		RestTemplate restTemplate = new RestTemplate();
 		UriComponentsBuilder builder = UriComponentsBuilder
 				.fromHttpUrl(token.getInstanceUrl()+ "/services/data/v34.0/query/")
@@ -28,9 +32,24 @@ public class ContactService {
 		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
 		headers.set("Authorization", token.getTokenType()+ " " + token.getAccessToken());
 		HttpEntity<?> entity = new HttpEntity<>(headers);
-		ResponseEntity<String> exchange = restTemplate.exchange(builder
+		ResponseEntity<ContactResponse> exchange = restTemplate.exchange(builder
 				.build().encode().toUri(), HttpMethod.GET, entity,
-				String.class);
+				ContactResponse.class);
+		return exchange.getBody().getRecords();
+	}
+	
+	public Contact getContactById(String contactId, AccessToken token){
+		RestTemplate restTemplate = new RestTemplate();
+		UriComponentsBuilder builder = UriComponentsBuilder
+				.fromHttpUrl(token.getInstanceUrl()+ "/services/data/v34.0/sobjects/Contact/"+contactId);
+		System.out.println(builder.build().encode().toString());
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+		headers.set("Authorization", token.getTokenType()+ " " + token.getAccessToken());
+		HttpEntity<?> entity = new HttpEntity<>(headers);
+		ResponseEntity<Contact> exchange = restTemplate.exchange(builder
+				.build().encode().toUri(), HttpMethod.GET, entity,
+				Contact.class);
 		return exchange.getBody();
 	}
 

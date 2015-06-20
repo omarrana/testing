@@ -1,5 +1,8 @@
 package org.rdf2salesforce;
 
+import java.util.List;
+
+import org.rdf2salesforce.model.Contact;
 import org.rdf2salesforce.services.ContactService;
 import org.rdf2salesforce.services.LoginService;
 import org.springframework.boot.SpringApplication;
@@ -17,8 +20,11 @@ public class Application {
     	AccessToken token = loginService.getToken().getBody();
     	System.out.println(token);
     	ContactService contactService = ctx.getBean(ContactService.class);
-    	String allContacts = contactService.getAll(token);
-    	System.out.println(allContacts);
+    	List<Contact> allContacts = contactService.getAll(token);
+    	allContacts.forEach(contact -> System.out.println(contact.getName()));
+    	
+    	Contact contact = contactService.getContactById(allContacts.get(0).getId(), token);
+    	System.out.println(contact);
     	
     }
 
