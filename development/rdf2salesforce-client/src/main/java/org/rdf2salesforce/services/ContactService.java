@@ -56,8 +56,9 @@ public class ContactService {
 				.getInstanceUrl() + "/services/data/v34.0/sobjects/Contact/");
 		HttpHeaders headers = createHeaders(token);
 		HttpEntity<Contact> entity = new HttpEntity<>(contact, headers);
-		ResponseEntity<CreateResponse> exchange = restTemplate.exchange(builder.build()
-				.encode().toUri(), HttpMethod.POST, entity, CreateResponse.class);
+		ResponseEntity<CreateResponse> exchange = restTemplate.exchange(builder
+				.build().encode().toUri(), HttpMethod.POST, entity,
+				CreateResponse.class);
 		return exchange.getBody();
 	}
 
@@ -72,6 +73,18 @@ public class ContactService {
 		ResponseEntity<String> exchange = restTemplate.exchange(builder.build()
 				.encode().toUri(), HttpMethod.POST, entity, String.class);
 		return exchange.getBody();
+	}
+
+	public void deleteContact(Contact contact, AccessToken token) {
+		RestTemplate restTemplate = new RestTemplate();
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(token
+				.getInstanceUrl()
+				+ "/services/data/v34.0/sobjects/Contact/"
+				+ contact.getId());
+		HttpHeaders headers = createHeaders(token);
+		HttpEntity<?> entity = new HttpEntity<>(headers);
+		ResponseEntity<String> exchange = restTemplate.exchange(builder.build()
+				.encode().toUri(), HttpMethod.DELETE, entity, String.class);
 	}
 
 	private HttpHeaders createHeaders(AccessToken token) {
