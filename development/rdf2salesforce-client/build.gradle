@@ -15,7 +15,10 @@ jar {
 repositories { mavenCentral() }
 
 dependencies {
-	compile("org.springframework.boot:spring-boot-starter")
+	compile("org.springframework.boot:spring-boot-starter"){
+		exclude module: "spring-boot-starter-logging"
+		exclude module: "logback-classic"
+	}
 	compile("org.springframework:spring-web")
 	compile("commons-io:commons-io:2.4")
 	compile("com.fasterxml.jackson.core:jackson-databind")
