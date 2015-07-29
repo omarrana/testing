@@ -1,7 +1,11 @@
 package org.rdf2salesforce.services;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
 import java.util.List;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.rdf2salesforce.AccessToken;
 import org.rdf2salesforce.config.AppConfig;
 import org.rdf2salesforce.model.Contact;
@@ -82,18 +86,23 @@ public class ContactService {
 		return exchange.getBody();
 	}
 
-	public String updateContact(Contact contact, AccessToken token) {
+	public String updateContact(Contact newContact, AccessToken token) {
 		ResponseEntity<String> exchange = null;
 		try {
 			RestTemplate restTemplate = new RestTemplate();
-			UriComponentsBuilder builder = UriComponentsBuilder
-					.fromHttpUrl(token.getInstanceUrl()
+			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(
+					token.getInstanceUrl()
 							+ "/services/data/v34.0/sobjects/Contact/"
-							+ contact.getId());
+							+ newContact.getId()).queryParam("_HttpMethod",
+					"PATCH");
 			HttpHeaders headers = createHeaders(token);
-			HttpEntity<Contact> entity = new HttpEntity<>(contact, headers);
-			exchange = restTemplate.exchange(builder.build().encode().toUri(),
-					HttpMethod.POST, entity, String.class);
+			Contact oldContact = this.getContact(newContact.getId(), token);
+			Contact diffContact = this.getDiffContact(oldContact, newContact);
+
+			HttpEntity<Contact> entity = new HttpEntity<>(diffContact, headers);
+			URI uri = builder.build().encode().toUri();
+			exchange = restTemplate.exchange(uri, HttpMethod.POST, entity,
+					String.class);
 
 		} catch (HttpClientErrorException httpError) {
 			LOGGER.error(httpError.getMessage());
@@ -101,6 +110,34 @@ public class ContactService {
 					httpError.getStatusCode());
 		}
 		return exchange.getBody();
+	}
+
+	private Contact getDiffContact(Contact oldContact, Contact newContact) {
+		Contact result = new Contact();
+		Field[] fields = Contact.class.getDeclaredFields();
+		for(Field field : fields){
+			try {
+				Object oldProperty = PropertyUtils.getProperty(oldContact, field.getName());
+				Object newProperty = PropertyUtils.getProperty(newContact, field.getName());
+				// introduced new field value that was null before
+				if(newProperty != null && oldProperty == null){
+					PropertyUtils.setProperty(result, field.getName(), newProperty.toString());
+					continue;
+				}
+				// changed old value to new value
+				if(newProperty != null && oldProperty != null && !newProperty.equals(oldProperty)){
+					PropertyUtils.setProperty(result, field.getName(), newProperty.toString());
+					
+				}
+			} catch (IllegalAccessException | InvocationTargetException
+					| NoSuchMethodException e) {
+				// TODO Auto-generated catch block
+				LOGGER.error(e.getMessage());
+			}
+		}
+		
+		
+		return result;
 	}
 
 	public void deleteContact(Contact contact, AccessToken token) {

@@ -29,7 +29,11 @@ public class Application {
     	CreateResponse createResponse = contactService.createContact(newContact, token);
     	String newContactId = createResponse.getId();
     	newContact.setId(newContactId);
-    	contactService.deleteContact(newContact, token);
+    	newContact.setFirstName("Jack");
+    	newContact.setLastName("Prod");
+    	newContact.setEmail("jack@gmail.com");
+    	contactService.updateContact(newContact, token);
+    	//contactService.deleteContact(newContact, token);
     }
 
 }
