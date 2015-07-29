@@ -115,19 +115,24 @@ public class ContactService {
 	private Contact getDiffContact(Contact oldContact, Contact newContact) {
 		Contact result = new Contact();
 		Field[] fields = Contact.class.getDeclaredFields();
-		for(Field field : fields){
+		for (Field field : fields) {
 			try {
-				Object oldProperty = PropertyUtils.getProperty(oldContact, field.getName());
-				Object newProperty = PropertyUtils.getProperty(newContact, field.getName());
+				Object oldProperty = PropertyUtils.getProperty(oldContact,
+						field.getName());
+				Object newProperty = PropertyUtils.getProperty(newContact,
+						field.getName());
 				// introduced new field value that was null before
-				if(newProperty != null && oldProperty == null){
-					PropertyUtils.setProperty(result, field.getName(), newProperty.toString());
+				if (newProperty != null && oldProperty == null) {
+					PropertyUtils.setProperty(result, field.getName(),
+							newProperty.toString());
 					continue;
 				}
 				// changed old value to new value
-				if(newProperty != null && oldProperty != null && !newProperty.equals(oldProperty)){
-					PropertyUtils.setProperty(result, field.getName(), newProperty.toString());
-					
+				if (newProperty != null && oldProperty != null
+						&& !newProperty.equals(oldProperty)) {
+					PropertyUtils.setProperty(result, field.getName(),
+							newProperty.toString());
+
 				}
 			} catch (IllegalAccessException | InvocationTargetException
 					| NoSuchMethodException e) {
@@ -135,8 +140,6 @@ public class ContactService {
 				LOGGER.error(e.getMessage());
 			}
 		}
-		
-		
 		return result;
 	}
 
