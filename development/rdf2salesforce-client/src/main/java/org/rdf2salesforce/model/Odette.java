@@ -33,17 +33,25 @@ public class Odette {
 		return NS;
 	}
 
+	public static Model getM_model() {
+		return m_model;
+	}
+
+	public static void setM_model(Model m_model) {
+		Odette.m_model = m_model;
+	}
+
 	/**
 	 * <p>
 	 * The namespace of the vocabulary as a resource
 	 * </p>
 	 */
-	public static final Resource NAMESPACE = m_model.createResource(NS);
+	public static final Resource NAMESPACE = getM_model().createResource(NS);
 
-	public static final Property additionalLink = m_model
+	public static final Property additionalLink = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#additionalLink");
 
-	public static final Property address = m_model
+	public static final Property address = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#address");
 
 	/**
@@ -52,10 +60,10 @@ public class Odette {
 	 * is recommended.
 	 * </p>
 	 */
-	public static final Property addressLineText = m_model
+	public static final Property addressLineText = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#addressLineText");
 
-	public static final Property billingAddress = m_model
+	public static final Property billingAddress = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#billingAddress");
 
 	/**
@@ -65,43 +73,43 @@ public class Odette {
 	 * recommended.
 	 * </p>
 	 */
-	public static final Property city = m_model
+	public static final Property city = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#city");
 
-	public static final Property countryCode = m_model
+	public static final Property countryCode = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#countryCode");
 
-	public static final Property directParent = m_model
+	public static final Property directParent = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#directParent");
 
-	public static final Property emailAddress = m_model
+	public static final Property emailAddress = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#emailAddress");
 
-	public static final Property faxNumber = m_model
+	public static final Property faxNumber = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#faxNumber");
 
-	public static final Property fiscalRegistrationId = m_model
+	public static final Property fiscalRegistrationId = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#fiscalRegistrationId");
 
-	public static final Property generalContact = m_model
+	public static final Property generalContact = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#generalContact");
 
-	public static final Property homepage = m_model
+	public static final Property homepage = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#homepage");
 
-	public static final Property isClientOf = m_model
+	public static final Property isClientOf = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#isClientOf");
 
-	public static final Property isSupplierOf = m_model
+	public static final Property isSupplierOf = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#isSupplierOf");
 
-	public static final Property lastUpdate = m_model
+	public static final Property lastUpdate = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#lastUpdate");
 
-	public static final Property logo = m_model
+	public static final Property logo = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#logo");
 
-	public static final Property mailingAddress = m_model
+	public static final Property mailingAddress = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#mailingAddress");
 
 	/**
@@ -113,22 +121,22 @@ public class Odette {
 	 * required.
 	 * </p>
 	 */
-	public static final Property name = m_model
+	public static final Property name = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#name");
 
-	public static final Property officeLocation = m_model
+	public static final Property officeLocation = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#officeLocation");
 
-	public static final Property position = m_model
+	public static final Property position = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#position");
 
-	public static final Property postBoxId = m_model
+	public static final Property postBoxId = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#postBoxId");
 
-	public static final Property postCode = m_model
+	public static final Property postCode = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#postCode");
 
-	public static final Property postCodePoBox = m_model
+	public static final Property postCodePoBox = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#postCodePoBox");
 
 	/**
@@ -139,10 +147,10 @@ public class Odette {
 	 * repeatable.
 	 * </p>
 	 */
-	public static final Property previousName = m_model
+	public static final Property previousName = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#previousName");
 
-	public static final Property standardFormContract = m_model
+	public static final Property standardFormContract = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#standardFormContract");
 
 	/**
@@ -152,16 +160,16 @@ public class Odette {
 	 * language is recommended.
 	 * </p>
 	 */
-	public static final Property street = m_model
+	public static final Property street = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#street");
 
-	public static final Property subCountryCode = m_model
+	public static final Property subCountryCode = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#subCountryCode");
 
-	public static final Property telephoneNumber = m_model
+	public static final Property telephoneNumber = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#telephoneNumber");
 
-	public static final Property timeZone = m_model
+	public static final Property timeZone = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#timeZone");
 
 	/**
@@ -172,10 +180,10 @@ public class Odette {
 	 * repeatable.
 	 * </p>
 	 */
-	public static final Property tradeName = m_model
+	public static final Property tradeName = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#tradeName");
 
-	public static final Property vATRegistrationId = m_model
+	public static final Property vATRegistrationId = getM_model()
 			.createProperty("https://vocab.eccenca.com/odette/#vATRegistrationId");
 
 	/**
@@ -186,7 +194,7 @@ public class Odette {
 	 * field is required.
 	 * </p>
 	 */
-	public static final Resource Address = m_model
+	public static final Resource Address = getM_model()
 			.createResource("https://vocab.eccenca.com/odette/#Address");
 
 	/**
@@ -197,16 +205,16 @@ public class Odette {
 	 * repeatable to allow the transmission of all relevant sub-entities.
 	 * </p>
 	 */
-	public static final Resource BusinessEntity = m_model
+	public static final Resource BusinessEntity = getM_model()
 			.createResource("https://vocab.eccenca.com/odette/#BusinessEntity");
 
-	public static final Resource Country = m_model
+	public static final Resource Country = getM_model()
 			.createResource("https://vocab.eccenca.com/odette/#Country");
 
-	public static final Resource Document = m_model
+	public static final Resource Document = getM_model()
 			.createResource("https://vocab.eccenca.com/odette/#Document");
 
-	public static final Resource Feature = m_model
+	public static final Resource Feature = getM_model()
 			.createResource("https://vocab.eccenca.com/odette/#Feature");
 
 	/**
@@ -214,7 +222,7 @@ public class Odette {
 	 * equals to entity-type 001
 	 * </p>
 	 */
-	public static final Resource LegalHeadOffice = m_model
+	public static final Resource LegalHeadOffice = getM_model()
 			.createResource("https://vocab.eccenca.com/odette/#LegalHeadOffice");
 
 	/**
@@ -222,7 +230,7 @@ public class Odette {
 	 * equals to entity-type 003
 	 * </p>
 	 */
-	public static final Resource NonRegisteredEntity = m_model
+	public static final Resource NonRegisteredEntity = getM_model()
 			.createResource("https://vocab.eccenca.com/odette/#NonRegisteredEntity");
 
 	/**
@@ -230,7 +238,7 @@ public class Odette {
 	 * equals to entity-type 002
 	 * </p>
 	 */
-	public static final Resource OtherRegisteredEntity = m_model
+	public static final Resource OtherRegisteredEntity = getM_model()
 			.createResource("https://vocab.eccenca.com/odette/#OtherRegisteredEntity");
 
 }

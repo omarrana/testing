@@ -11,6 +11,7 @@ import org.rdf2salesforce.config.AppConfig;
 import org.rdf2salesforce.model.Contact;
 import org.rdf2salesforce.model.ContactResponse;
 import org.rdf2salesforce.model.CreateResponse;
+import org.rdf2salesforce.model.Odette;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import com.hp.hpl.jena.rdf.model.Property;
+import com.hp.hpl.jena.rdf.model.RDFNode;
+import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.Statement;
+import com.hp.hpl.jena.rdf.model.StmtIterator;
+import com.hp.hpl.jena.util.FileManager;
 
 @Service
 public class ContactService {
@@ -165,6 +173,32 @@ public class ContactService {
 		headers.set("Authorization",
 				token.getTokenType() + " " + token.getAccessToken());
 		return headers;
+	}
+	
+	public Contact createFromRdf (Contact newContact){
+
+    	FileManager.get().readModel(Odette.getM_model(), "example-eccenca.ttl");
+    	
+    	StmtIterator iter=Odette.getM_model().listStatements();
+    	while(iter.hasNext()) {
+    		Statement stms = iter.nextStatement();
+    		Resource subject = stms.getSubject();
+    		Property predicate = stms.getPredicate();
+    		RDFNode object = stms.getObject();
+    		System.out.print(subject.toString());
+    		System.out.print(" " + predicate.toString() + " ");
+    		if (object instanceof Resource){
+    			 System.out.print(object.toString());
+            } else {
+                // object is a literal
+                System.out.print(" \"" + object.toString() + "\"");
+            }
+    		 System.out.println(" .");
+    	}
+    	
+    	Odette.getM_model().write(System.out); 
+    	return newContact;
+    	
 	}
 
 }
