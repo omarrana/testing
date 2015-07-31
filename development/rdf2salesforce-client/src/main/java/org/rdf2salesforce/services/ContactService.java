@@ -183,18 +183,13 @@ public class ContactService {
 
 		FileManager.get().readModel(Odette.getModel(), "example-eccenca.ttl");
 		Contact newContact = new Contact();
-		Property personProperty = Odette.getModel().createProperty(
-				"http://xmlns.com/foaf/0.1/familyName");
-		ResIterator stmts = Odette.generalContact.getModel()
-				.listResourcesWithProperty(personProperty);
+		Property foafPersonProperty = Odette.getModel().createProperty(
+				"http://xmlns.com/foaf/0.1/Person");
+		ResIterator stmts = Odette.getModel().listResourcesWithProperty(null, (RDFNode) foafPersonProperty);
 		while (stmts.hasNext()) {
-			
 			Resource next = stmts.next();
-			StmtIterator listStatements = Odette.getModel().listStatements(next, null, (RDFNode)null);
-			while(listStatements.hasNext()){
-				LOGGER.info(listStatements.next().toString());
-			}
-			
+			LOGGER.info(next.toString());
+
 		}
 
 		return newContact;
