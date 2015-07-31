@@ -188,7 +188,12 @@ public class ContactService {
 		ResIterator stmts = Odette.getModel().listResourcesWithProperty(null, (RDFNode) foafPersonProperty);
 		while (stmts.hasNext()) {
 			Resource next = stmts.next();
+			StmtIterator personStatements = Odette.getModel().listStatements(next, null, (RDFNode)null);
 			LOGGER.info(next.toString());
+			while(personStatements.hasNext()){
+				Statement personStatement = personStatements.next();
+				LOGGER.info(personStatement.toString());
+			}
 
 		}
 
