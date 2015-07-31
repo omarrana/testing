@@ -25,9 +25,13 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.hp.hpl.jena.rdf.model.NodeIterator;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFNode;
+import com.hp.hpl.jena.rdf.model.ResIterator;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.Selector;
+import com.hp.hpl.jena.rdf.model.SimpleSelector;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.util.FileManager;
@@ -174,31 +178,26 @@ public class ContactService {
 				token.getTokenType() + " " + token.getAccessToken());
 		return headers;
 	}
-	
-	public Contact createFromRdf (Contact newContact){
 
-    	FileManager.get().readModel(Odette.getM_model(), "example-eccenca.ttl");
-    	
-    	StmtIterator iter=Odette.getM_model().listStatements();
-    	while(iter.hasNext()) {
-    		Statement stms = iter.nextStatement();
-    		Resource subject = stms.getSubject();
-    		Property predicate = stms.getPredicate();
-    		RDFNode object = stms.getObject();
-    		System.out.print(subject.toString());
-    		System.out.print(" " + predicate.toString() + " ");
-    		if (object instanceof Resource){
-    			 System.out.print(object.toString());
-            } else {
-                // object is a literal
-                System.out.print(" \"" + object.toString() + "\"");
-            }
-    		 System.out.println(" .");
-    	}
-    	
-    	Odette.getM_model().write(System.out); 
-    	return newContact;
-    	
+	public Contact createFromRdf() {
+
+		FileManager.get().readModel(Odette.getModel(), "example-eccenca.ttl");
+		Contact newContact = new Contact();
+		Property personProperty = Odette.getModel().createProperty(
+				"http://xmlns.com/foaf/0.1/familyName");
+		ResIterator stmts = Odette.generalContact.getModel()
+				.listResourcesWithProperty(personProperty);
+		while (stmts.hasNext()) {
+			
+			Resource next = stmts.next();
+			StmtIterator listStatements = Odette.getModel().listStatements(next, null, (RDFNode)null);
+			while(listStatements.hasNext()){
+				LOGGER.info(listStatements.next().toString());
+			}
+			
+		}
+
+		return newContact;
+
 	}
-
 }
