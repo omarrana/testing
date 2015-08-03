@@ -1,5 +1,5 @@
 package org.rdf2salesforce.model;
-
+import java.lang.reflect.Field;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -188,4 +188,43 @@ public class Contact {
 	public void setId(String id) {
 		this.id = id;
 	}
+	
+	public void set(String fieldName, String value) 
+	{
+		try
+		{
+			Class<?> c = this.getClass();
+		
+			Field field = c.getDeclaredField(fieldName);
+			field.set(this, value);
+		}
+		catch(Exception ex)
+		{
+			//System.out.println(ex);
+		}
+	}
+	@Override 
+	public String toString()
+	{
+		StringBuilder stringBuilder= new StringBuilder();
+		
+		try
+		{
+			Class<?> c = this.getClass();
+			Field []fields = c.getDeclaredFields();
+			for(int i=0; i<fields.length; i++)
+			{
+				if(fields[i].get(this) != null)
+				{
+					stringBuilder.append(fields[i].getName()+":"+fields[i].get(this)+"\n");
+				}
+			}
+		}
+		catch(Exception ex)
+		{
+			//System.out.println(ex);
+		}
+		return stringBuilder.toString();
+	}
+	
 }

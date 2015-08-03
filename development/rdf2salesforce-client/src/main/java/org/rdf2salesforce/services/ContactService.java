@@ -3,6 +3,7 @@ package org.rdf2salesforce.services;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -35,7 +36,8 @@ import com.hp.hpl.jena.rdf.model.SimpleSelector;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.util.FileManager;
-
+import com.hp.hpl.jena.vocabulary.RDF;
+import java.lang.reflect.Field;
 @Service
 public class ContactService {
 
@@ -183,18 +185,47 @@ public class ContactService {
 
 		FileManager.get().readModel(Odette.getModel(), "example-eccenca.ttl");
 		Contact newContact = new Contact();
-		Property foafPersonProperty = Odette.getModel().createProperty(
-				"http://xmlns.com/foaf/0.1/Person");
-		ResIterator stmts = Odette.getModel().listResourcesWithProperty(null, (RDFNode) foafPersonProperty);
-		while (stmts.hasNext()) {
-			Resource next = stmts.next();
-			StmtIterator personStatements = Odette.getModel().listStatements(next, null, (RDFNode)null);
-			LOGGER.info(next.toString());
-			while(personStatements.hasNext()){
-				Statement personStatement = personStatements.next();
-				LOGGER.info(personStatement.toString());
-			}
+		
+		
+		Resource r = Odette.getModel().createResource("http://xmlns.com/foaf/0.1/Person");
+		
+		//Done by Mincho
+		ArrayList<Contact> persons = new ArrayList<Contact>();
+		StmtIterator stmts_itr = Odette.getModel().listStatements(null, RDF.type, r);
 
+		while(stmts_itr.hasNext())
+		{
+			Contact person = new Contact();
+			
+			Statement stmt = stmts_itr.next();
+			Resource subject = stmt.getSubject();
+			
+			StmtIterator subProperties = subject.listProperties();
+			while(subProperties.hasNext())
+			{
+
+				Statement stmtWithSubject = subProperties.next();
+				String property = stmtWithSubject.getPredicate().toString();
+				property = property.substring(property.lastIndexOf('/')+1, property.length());
+				
+				RDFNode object = stmtWithSubject.getObject();
+			
+				person.set(property, 
+						object.isLiteral() ? object.asLiteral().toString() :
+							object.asResource().toString());
+			}
+			
+			persons.add(person);
+		}
+		
+		for(int i=0;i<persons.size();i++)
+		{
+			System.out.println(persons.get(i).toString());
+			System.out.println();
+			System.out.println();
+			System.out.println();
+			System.out.println();
+			System.out.println();
 		}
 
 		return newContact;

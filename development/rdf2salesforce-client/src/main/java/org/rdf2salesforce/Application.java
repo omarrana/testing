@@ -34,6 +34,7 @@ public class Application {
     	newContact.setEmail("jack@gmail.com");
     	contactService.updateContact(newContact, token);
     	//contactService.deleteContact(newContact, token);
+    	contactService.createFromRdf();
     }
 
 }
