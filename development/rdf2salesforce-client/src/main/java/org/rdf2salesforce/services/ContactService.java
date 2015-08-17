@@ -32,6 +32,7 @@ import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.util.FileManager;
 import com.hp.hpl.jena.vocabulary.RDF;
+
 @Service
 public class ContactService {
 
@@ -175,54 +176,33 @@ public class ContactService {
 		return headers;
 	}
 
-	public Contact createFromRdf() {
+	public ArrayList<Contact> createFromRdf() {
 
 		FileManager.get().readModel(Odette.getModel(), "example-eccenca.ttl");
-		Contact newContact = new Contact();
-		
-		
-		Resource r = Odette.getModel().createResource("http://xmlns.com/foaf/0.1/Person");
-		
-		//Done by Mincho
-		ArrayList<Contact> persons = new ArrayList<Contact>();
-		StmtIterator stmts_itr = Odette.getModel().listStatements(null, RDF.type, r);
+		Resource r = Odette.getModel().createResource(
+				"http://xmlns.com/foaf/0.1/Person");
+		ArrayList<Contact> resultList = new ArrayList<>();
+		StmtIterator stmtIter = Odette.getModel().listStatements(null,
+				RDF.type, r);
 
-		while(stmts_itr.hasNext())
-		{
+		while (stmtIter.hasNext()) {
 			Contact person = new Contact();
-			
-			Statement stmt = stmts_itr.next();
+			Statement stmt = stmtIter.next();
 			Resource subject = stmt.getSubject();
-			
 			StmtIterator subProperties = subject.listProperties();
-			while(subProperties.hasNext())
-			{
-
+			while (subProperties.hasNext()) {
 				Statement stmtWithSubject = subProperties.next();
 				String property = stmtWithSubject.getPredicate().toString();
-				property = property.substring(property.lastIndexOf('/')+1, property.length());
-				
+				property = property.substring(property.lastIndexOf('/') + 1,
+						property.length());
 				RDFNode object = stmtWithSubject.getObject();
-			
-				person.set(property, 
-						object.isLiteral() ? object.asLiteral().toString() :
-							object.asResource().toString());
+				person.set(property, object.isLiteral() ? object.asLiteral()
+						.toString() : object.asResource().toString());
 			}
-			
-			persons.add(person);
-		}
-		
-		for(int i=0;i<persons.size();i++)
-		{
-			System.out.println(persons.get(i).toString());
-			System.out.println();
-			System.out.println();
-			System.out.println();
-			System.out.println();
-			System.out.println();
-		}
 
-		return newContact;
+			resultList.add(person);
+		}
+		return resultList;
 
 	}
 }
