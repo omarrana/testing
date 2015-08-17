@@ -1,5 +1,7 @@
 package org.rdf2salesforce.model;
+
 import java.lang.reflect.Field;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,9 +19,9 @@ public class Contact {
 	@JsonProperty("Name")
 	private String name;
 	@JsonProperty("FirstName")
-	private String firstName;
+	private String givenName;
 	@JsonProperty("LastName")
-	private String lastName;
+	private String familyName;
 	@JsonProperty("MailingCity")
 	private String mailingCity;
 	@JsonProperty("MailingStreet")
@@ -35,13 +37,13 @@ public class Contact {
 	@JsonProperty("AddressZip")
 	private String addressZip;
 	@JsonProperty("Phone")
-	private String phone;
+	private String telephoneNumber;
 	@JsonProperty("Fax")
 	private String fax;
 	@JsonProperty("MobilePhone")
 	private String mobilePhone;
 	@JsonProperty("Email")
-	private String email;
+	private String emailAdress;
 	@JsonProperty("Id")
 	private String id;
 
@@ -77,20 +79,20 @@ public class Contact {
 		this.name = name;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getGivenName() {
+		return givenName;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setGivenName(String firstName) {
+		this.givenName = firstName;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public String getFamilyName() {
+		return familyName;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setFamilyName(String lastName) {
+		this.familyName = lastName;
 	}
 
 	public String getMailingCity() {
@@ -149,12 +151,12 @@ public class Contact {
 		this.addressZip = addressZip;
 	}
 
-	public String getPhone() {
-		return phone;
+	public String getTelephoneNumber() {
+		return telephoneNumber;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setTelephoneNumber(String phone) {
+		this.telephoneNumber = phone;
 	}
 
 	public String getFax() {
@@ -173,14 +175,14 @@ public class Contact {
 		this.mobilePhone = mobilePhone;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getEmailAdress() {
+		return emailAdress;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setEmailAdress(String emailAdress) {
+		this.emailAdress = emailAdress;
 	}
-	
+
 	public String getId() {
 		return id;
 	}
@@ -188,43 +190,35 @@ public class Contact {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
-	public void set(String fieldName, String value) 
-	{
-		try
-		{
+
+	public void set(String fieldName, String value) {
+		try {
 			Class<?> c = this.getClass();
-		
+
 			Field field = c.getDeclaredField(fieldName);
 			field.set(this, value);
-		}
-		catch(Exception ex)
-		{
-			//System.out.println(ex);
+		} catch (Exception ex) {
+			// System.out.println(ex);
 		}
 	}
-	@Override 
-	public String toString()
-	{
-		StringBuilder stringBuilder= new StringBuilder();
-		
-		try
-		{
+
+	@Override
+	public String toString() {
+		StringBuilder stringBuilder = new StringBuilder();
+
+		try {
 			Class<?> c = this.getClass();
-			Field []fields = c.getDeclaredFields();
-			for(int i=0; i<fields.length; i++)
-			{
-				if(fields[i].get(this) != null)
-				{
-					stringBuilder.append(fields[i].getName()+":"+fields[i].get(this)+"\n");
+			Field[] fields = c.getDeclaredFields();
+			for (int i = 0; i < fields.length; i++) {
+				if (fields[i].get(this) != null) {
+					stringBuilder.append(fields[i].getName() + ":"
+							+ fields[i].get(this) + "\n");
 				}
 			}
-		}
-		catch(Exception ex)
-		{
-			//System.out.println(ex);
+		} catch (Exception ex) {
+			// System.out.println(ex);
 		}
 		return stringBuilder.toString();
 	}
-	
+
 }
