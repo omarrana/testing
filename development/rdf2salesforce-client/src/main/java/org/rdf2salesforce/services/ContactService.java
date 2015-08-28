@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.riot.RDFLanguages;
 import org.rdf2salesforce.AccessToken;
 import org.rdf2salesforce.config.AppConfig;
 import org.rdf2salesforce.model.Contact;
@@ -27,9 +27,12 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.hp.hpl.jena.datatypes.xsd.impl.RDFLangString;
 import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.ResourceFactory;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.sparql.vocabulary.FOAF;
@@ -203,6 +206,15 @@ public class ContactService {
 		return resultList;
 	}
 
-	
-	
+	public void createRdfContact(Contact contact) {
+		Model model = ModelFactory.createDefaultModel();
+		String nsEccenca = Odette.getModel().getNsPrefixMap().get("eccenca");
+		Resource personResource = ResourceFactory.createResource(nsEccenca
+				+ contact.getFamilyName());
+		model.add(personResource, RDF.type, FOAF.Person);
+		model.add(personResource, FOAF.givenname, contact.getGivenName());
+		model.add(personResource, FOAF.family_name, contact.getFamilyName());
+		model.write(System.out, RDFLanguages.strLangTurtle);
+	}
+
 }
