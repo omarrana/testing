@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.jena.riot.RDFDataMgr;
 import org.rdf2salesforce.AccessToken;
 import org.rdf2salesforce.config.AppConfig;
 import org.rdf2salesforce.model.Contact;
@@ -26,10 +27,12 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
+import com.hp.hpl.jena.sparql.vocabulary.FOAF;
 import com.hp.hpl.jena.util.FileManager;
 import com.hp.hpl.jena.vocabulary.RDF;
 
@@ -177,14 +180,10 @@ public class ContactService {
 	}
 
 	public ArrayList<Contact> createFromRdf() {
-
 		FileManager.get().readModel(Odette.getModel(), "example-eccenca.ttl");
-		Resource r = Odette.getModel().createResource(
-				"http://xmlns.com/foaf/0.1/Person");
 		ArrayList<Contact> resultList = new ArrayList<>();
 		StmtIterator stmtIter = Odette.getModel().listStatements(null,
-				RDF.type, r);
-
+				RDF.type, FOAF.Person);
 		while (stmtIter.hasNext()) {
 			Contact person = new Contact();
 			Statement stmt = stmtIter.next();
@@ -199,10 +198,11 @@ public class ContactService {
 				person.set(property, object.isLiteral() ? object.asLiteral()
 						.toString() : object.asResource().toString());
 			}
-
 			resultList.add(person);
 		}
 		return resultList;
-
 	}
+
+	
+	
 }
