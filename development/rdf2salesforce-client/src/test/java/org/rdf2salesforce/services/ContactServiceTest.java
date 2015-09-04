@@ -2,6 +2,7 @@ package org.rdf2salesforce.services;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
@@ -84,7 +85,8 @@ public class ContactServiceTest {
 
 	@Test
 	public void testCreateFromRdf() {
-		
+		ArrayList<Contact> contactsFromRdf = contactService.createFromRdf();
+		assertTrue(contactsFromRdf.size() > 0);
 	}
 
 	@Test
