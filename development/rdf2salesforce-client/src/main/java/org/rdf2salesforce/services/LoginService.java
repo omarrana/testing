@@ -18,7 +18,7 @@ public class LoginService {
 	@Autowired
 	private AppConfig appConfig;
 
-	public ResponseEntity<AccessToken> getToken() {
+	public AccessToken getToken() {
 		RestTemplate restTemplate = new RestTemplate();
 		UriComponentsBuilder builder = UriComponentsBuilder
 				.fromHttpUrl(appConfig.LOGIN_URL).queryParam("grant_type", "password")
@@ -32,7 +32,7 @@ public class LoginService {
 		ResponseEntity<AccessToken> exchange = restTemplate.exchange(builder
 				.build().encode().toUri(), HttpMethod.POST, entity,
 				AccessToken.class);
-		return exchange;
+		return exchange.getBody();
 
 	}
 

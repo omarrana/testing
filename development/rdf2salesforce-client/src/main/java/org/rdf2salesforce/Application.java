@@ -24,7 +24,7 @@ public class Application {
     public static void main(String args[]){
     	ApplicationContext ctx = SpringApplication.run(Application.class, args);
     	LoginService loginService = ctx.getBean(LoginService.class);
-    	AccessToken token = loginService.getToken().getBody();
+    	AccessToken token = loginService.getToken();
     	System.out.println(token);
     	ContactService contactService = ctx.getBean(ContactService.class);
     	List<Contact> allContacts = contactService.getAll(token);
