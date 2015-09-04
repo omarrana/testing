@@ -126,6 +126,14 @@ public class ContactService {
 		return exchange.getBody();
 	}
 
+	/**
+	 * In order to patch a Contact we have insert only the information that 
+	 * has changed. Therefore we need to find all the fields in the new 
+	 * contact that are different from the old version of this contact. 
+	 * 
+	 * The method iterates over all {@code getDeclaredFields()} of {@link Contact} 
+	 * and store the differences in a separate result object. 
+	 */
 	private Contact getDiffContact(Contact oldContact, Contact newContact) {
 		Contact result = new Contact();
 		Field[] fields = Contact.class.getDeclaredFields();
@@ -146,7 +154,6 @@ public class ContactService {
 						&& !newProperty.equals(oldProperty)) {
 					PropertyUtils.setProperty(result, field.getName(),
 							newProperty.toString());
-
 				}
 			} catch (IllegalAccessException | InvocationTargetException
 					| NoSuchMethodException e) {
