@@ -50,8 +50,8 @@ public class ContactService {
 	public List<Contact> getAll(AccessToken token) {
 		RestTemplate restTemplate = new RestTemplate();
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(
-				token.getInstanceUrl() + appConfig.QUERY_BASE)
-				.queryParam("q", appConfig.QUERY_CONTACT_ALL);
+				token.getInstanceUrl() + appConfig.QUERY_BASE).queryParam("q",
+				appConfig.QUERY_CONTACT_ALL);
 		HttpHeaders headers = createHeaders(token);
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 		ResponseEntity<ContactResponse> exchange = restTemplate.exchange(
@@ -66,8 +66,7 @@ public class ContactService {
 			RestTemplate restTemplate = new RestTemplate();
 			UriComponentsBuilder builder = UriComponentsBuilder
 					.fromHttpUrl(token.getInstanceUrl()
-							+ appConfig.QUERY_CONTACT
-							+ contactId);
+							+ appConfig.QUERY_CONTACT + contactId);
 			HttpHeaders headers = createHeaders(token);
 			HttpEntity<?> entity = new HttpEntity<>(headers);
 			exchange = restTemplate.exchange(builder.build().encode().toUri(),
@@ -105,8 +104,7 @@ public class ContactService {
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(
-					token.getInstanceUrl()
-							+ appConfig.QUERY_CONTACT
+					token.getInstanceUrl() + appConfig.QUERY_CONTACT
 							+ newContact.getId()).queryParam("_HttpMethod",
 					"PATCH");
 			HttpHeaders headers = createHeaders(token);
@@ -127,12 +125,12 @@ public class ContactService {
 	}
 
 	/**
-	 * In order to patch a Contact we have insert only the information that 
-	 * has changed. Therefore we need to find all the fields in the new 
-	 * contact that are different from the old version of this contact. 
+	 * In order to patch a Contact we have insert only the information that has
+	 * changed. Therefore we need to find all the fields in the new contact that
+	 * are different from the old version of this contact.
 	 * 
-	 * The method iterates over all {@code getDeclaredFields()} of {@link Contact} 
-	 * and store the differences in a separate result object. 
+	 * The method iterates over all {@code getDeclaredFields()} of
+	 * {@link Contact} and store the differences in a separate result object.
 	 */
 	private Contact getDiffContact(Contact oldContact, Contact newContact) {
 		Contact result = new Contact();
@@ -169,8 +167,7 @@ public class ContactService {
 			RestTemplate restTemplate = new RestTemplate();
 			UriComponentsBuilder builder = UriComponentsBuilder
 					.fromHttpUrl(token.getInstanceUrl()
-							+ appConfig.QUERY_CONTACT
-							+ contact.getId());
+							+ appConfig.QUERY_CONTACT + contact.getId());
 			HttpHeaders headers = createHeaders(token);
 			HttpEntity<?> entity = new HttpEntity<>(headers);
 			restTemplate.exchange(builder.build().encode().toUri(),
@@ -217,10 +214,10 @@ public class ContactService {
 		String nsEccenca = Odette.getModel().getNsPrefixMap().get("eccenca");
 		Resource personResource = ResourceFactory.createResource(nsEccenca
 				+ contact.getFamilyName());
-		model.add(personResource, RDF.type, FOAF.Person);
-		model.add(personResource, FOAF.givenname, contact.getGivenName());
-		model.add(personResource, FOAF.family_name, contact.getFamilyName());
-		model.write(System.out, RDFLanguages.strLangTurtle);
+		model.add(personResource, RDF.type, FOAF.Person)
+				.add(personResource, FOAF.givenname, contact.getGivenName())
+				.add(personResource, FOAF.family_name, contact.getFamilyName())
+				.write(System.out, RDFLanguages.strLangTurtle);
 	}
 
 }
