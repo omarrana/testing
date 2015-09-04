@@ -17,9 +17,14 @@ public class AppConfig {
 	public String PASSWORD;
 	@Value("${login_url}")
 	public String LOGIN_URL;
+
 	
-	@Value("${contact.query.all}")
-	public String CONTACT_QUERY_ALL;
+	@Value("${query.base")
+	public String QUERY_BASE;
+	@Value("${query.contact")
+	public String QUERY_CONTACT;
+	@Value("${query.contact.all}")
+	public String QUERY_CONTACT_ALL;
 	
 	
 	

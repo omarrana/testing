@@ -50,8 +50,8 @@ public class ContactService {
 	public List<Contact> getAll(AccessToken token) {
 		RestTemplate restTemplate = new RestTemplate();
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(
-				token.getInstanceUrl() + "/services/data/v34.0/query/")
-				.queryParam("q", appConfig.CONTACT_QUERY_ALL);
+				token.getInstanceUrl() + appConfig.QUERY_BASE)
+				.queryParam("q", appConfig.QUERY_CONTACT_ALL);
 		HttpHeaders headers = createHeaders(token);
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 		ResponseEntity<ContactResponse> exchange = restTemplate.exchange(
@@ -66,7 +66,7 @@ public class ContactService {
 			RestTemplate restTemplate = new RestTemplate();
 			UriComponentsBuilder builder = UriComponentsBuilder
 					.fromHttpUrl(token.getInstanceUrl()
-							+ "/services/data/v34.0/sobjects/Contact/"
+							+ appConfig.QUERY_CONTACT
 							+ contactId);
 			HttpHeaders headers = createHeaders(token);
 			HttpEntity<?> entity = new HttpEntity<>(headers);
@@ -86,7 +86,7 @@ public class ContactService {
 			RestTemplate restTemplate = new RestTemplate();
 			UriComponentsBuilder builder = UriComponentsBuilder
 					.fromHttpUrl(token.getInstanceUrl()
-							+ "/services/data/v34.0/sobjects/Contact/");
+							+ appConfig.QUERY_CONTACT);
 			HttpHeaders headers = createHeaders(token);
 			HttpEntity<Contact> entity = new HttpEntity<>(contact, headers);
 			exchange = restTemplate.exchange(builder.build().encode().toUri(),
@@ -106,7 +106,7 @@ public class ContactService {
 			RestTemplate restTemplate = new RestTemplate();
 			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(
 					token.getInstanceUrl()
-							+ "/services/data/v34.0/sobjects/Contact/"
+							+ appConfig.QUERY_CONTACT
 							+ newContact.getId()).queryParam("_HttpMethod",
 					"PATCH");
 			HttpHeaders headers = createHeaders(token);
@@ -162,7 +162,7 @@ public class ContactService {
 			RestTemplate restTemplate = new RestTemplate();
 			UriComponentsBuilder builder = UriComponentsBuilder
 					.fromHttpUrl(token.getInstanceUrl()
-							+ "/services/data/v34.0/sobjects/Contact/"
+							+ appConfig.QUERY_CONTACT
 							+ contact.getId());
 			HttpHeaders headers = createHeaders(token);
 			HttpEntity<?> entity = new HttpEntity<>(headers);
