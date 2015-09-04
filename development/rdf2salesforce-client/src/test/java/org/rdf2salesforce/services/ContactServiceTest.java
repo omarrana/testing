@@ -1,6 +1,6 @@
 package org.rdf2salesforce.services;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -24,11 +24,14 @@ public class ContactServiceTest {
 	@Autowired
 	private LoginService loginService;
 	private AccessToken token;
+	private Contact contact;
 
 	@Before
 	public void init() {
 		token = loginService.getToken();
-
+		contact = new Contact();
+		contact.setFamilyName("Nash");
+		contact.setGivenName("John");
 	}
 
 	@Test
@@ -39,44 +42,54 @@ public class ContactServiceTest {
 
 	@Test
 	public void testGetContact() {
-
+		List<Contact> allContacts = contactService.getAll(token);
+		assertTrue(allContacts.size() > 0);
+		Contact firstContact = allContacts.get(0);
+		assertTrue(firstContact.getId() != null);
+		Contact responseContact = contactService.getContact(
+				firstContact.getId(), token);
+		assertTrue(responseContact.getId().equals(firstContact.getId()));
 	}
 
 	@Test
 	public void testCreateContact() {
-		Contact contact = new Contact();
-		contact.setFamilyName("Nash");
-		contact.setGivenName("John");
-		CreateResponse createResponse = contactService.createContact(contact, token);
-		assertTrue(createResponse.getId() != null);		
+		CreateResponse createResponse = contactService.createContact(contact,
+				token);
+		assertTrue(createResponse.getId() != null);
 	}
 
 	@Test
 	public void testUpdateContact() {
-		fail("Not yet implemented");
+		List<Contact> allContacts = contactService.getAll(token);
+		assertTrue(allContacts.size() > 0);
+		Contact firstContact = allContacts.get(0);
+		assertTrue(firstContact.getId() != null);
+		firstContact.setGivenName("New Name");
+		contactService.updateContact(firstContact, token);
+		Contact updatedContact = contactService.getContact(firstContact.getId(), token);
+		assertTrue(firstContact.getGivenName().equals(updatedContact.getGivenName()));
 	}
 
 	@Test
 	public void testDeleteContact() {
-		Contact contact = new Contact();
-		contact.setFamilyName("Nash");
-		contact.setGivenName("John");
-		CreateResponse createResponse = contactService.createContact(contact, token);
+		CreateResponse createResponse = contactService.createContact(contact,
+				token);
 		assertTrue(createResponse.getId() != null);
 		contact.setId(createResponse.getId());
 		contactService.deleteContact(contact, token);
-		Contact deletedContact = contactService.getContact(createResponse.getId(), token);
+		Contact deletedContact = contactService.getContact(
+				createResponse.getId(), token);
 		assertTrue(deletedContact.getName() == null);
 	}
 
 	@Test
 	public void testCreateFromRdf() {
-		fail("Not yet implemented");
+		
 	}
 
 	@Test
 	public void testCreateRdfContact() {
-		fail("Not yet implemented");
+		contactService.createRdfContact(contact);
 	}
 
 }
