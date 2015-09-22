@@ -25,7 +25,7 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value = "/logut", method = RequestMethod.GET)
-	public void getContact(@RequestParam(value = "token") String token) {
+	public void revokeToken(@RequestParam(value = "token") String token) {
 		loginService.revokeToken(token);
 	}
 	
