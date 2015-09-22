@@ -50,7 +50,7 @@ public class ContactService {
 		RestTemplate restTemplate = new RestTemplate();
 		UriComponentsBuilder builder = UriComponentsBuilder
 				.fromHttpUrl(
-						"https://" + instance + "salesforce.com"
+						"https://" + instance + ".salesforce.com"
 								+ appConfig.QUERY_BASE).queryParam("q",
 						appConfig.QUERY_CONTACT_ALL);
 		HttpHeaders headers = createHeaders(token);
@@ -66,7 +66,7 @@ public class ContactService {
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			UriComponentsBuilder builder = UriComponentsBuilder
-					.fromHttpUrl("https://" + instance + "salesforce.com"
+					.fromHttpUrl("https://" + instance + ".salesforce.com"
 							+ appConfig.QUERY_CONTACT + contactId);
 			HttpHeaders headers = createHeaders(token);
 			HttpEntity<?> entity = new HttpEntity<>(headers);
@@ -85,7 +85,7 @@ public class ContactService {
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			UriComponentsBuilder builder = UriComponentsBuilder
-					.fromHttpUrl("https://"+instance+"salesforce.com"
+					.fromHttpUrl("https://"+instance+".salesforce.com"
 							+ appConfig.QUERY_CONTACT);
 			HttpHeaders headers = createHeaders(token);
 			HttpEntity<Contact> entity = new HttpEntity<>(contact, headers);
@@ -106,7 +106,7 @@ public class ContactService {
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(
-					"https://"+instance+"salesforce.com" + appConfig.QUERY_CONTACT
+					"https://"+instance+".salesforce.com" + appConfig.QUERY_CONTACT
 							+ newContact.getId()).queryParam("_HttpMethod",
 					"PATCH");
 			HttpHeaders headers = createHeaders(token);
@@ -169,7 +169,7 @@ public class ContactService {
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			UriComponentsBuilder builder = UriComponentsBuilder
-					.fromHttpUrl("https://"+instance+"salesforce.com"
+					.fromHttpUrl("https://"+instance+".salesforce.com"
 							+ appConfig.QUERY_CONTACT + contact.getId());
 			HttpHeaders headers = createHeaders(token);
 			HttpEntity<?> entity = new HttpEntity<>(headers);
