@@ -20,6 +20,13 @@ public class LoginController {
 			@RequestParam(value = "clientPassword") String clientPassword) {
 		AccessToken token = loginService.login(clientId, clientSecret,
 				clientUsername, clientPassword);
+		System.out.println(token.getInstanceUrl());
 		return token.getAccessToken();
 	}
+	
+	@RequestMapping(value = "/logut", method = RequestMethod.GET)
+	public void getContact(@RequestParam(value = "token") String token) {
+		loginService.revokeToken(token);
+	}
+	
 }

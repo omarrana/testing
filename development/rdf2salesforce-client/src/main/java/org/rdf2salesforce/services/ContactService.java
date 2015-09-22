@@ -46,11 +46,13 @@ public class ContactService {
 	private static Logger LOGGER = LoggerFactory
 			.getLogger(ContactService.class);
 
-	public List<Contact> getAll(String token) {
+	public List<Contact> getAll(String token, String instance) {
 		RestTemplate restTemplate = new RestTemplate();
-		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(
-				appConfig.SALESFORCE_INSTANCE + appConfig.QUERY_BASE).queryParam("q",
-				appConfig.QUERY_CONTACT_ALL);
+		UriComponentsBuilder builder = UriComponentsBuilder
+				.fromHttpUrl(
+						"https://" + instance + "salesforce.com"
+								+ appConfig.QUERY_BASE).queryParam("q",
+						appConfig.QUERY_CONTACT_ALL);
 		HttpHeaders headers = createHeaders(token);
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 		ResponseEntity<ContactResponse> exchange = restTemplate.exchange(
@@ -59,12 +61,12 @@ public class ContactService {
 		return exchange.getBody().getRecords();
 	}
 
-	public Contact getContact(String contactId, String token) {
+	public Contact getContact(String contactId, String token, String instance) {
 		ResponseEntity<Contact> exchange = null;
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			UriComponentsBuilder builder = UriComponentsBuilder
-					.fromHttpUrl(appConfig.SALESFORCE_INSTANCE
+					.fromHttpUrl("https://" + instance + "salesforce.com"
 							+ appConfig.QUERY_CONTACT + contactId);
 			HttpHeaders headers = createHeaders(token);
 			HttpEntity<?> entity = new HttpEntity<>(headers);
@@ -78,12 +80,12 @@ public class ContactService {
 		return exchange.getBody();
 	}
 
-	public CreateResponse createContact(Contact contact, String token) {
+	public CreateResponse createContact(Contact contact, String token, String instance) {
 		ResponseEntity<CreateResponse> exchange = null;
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			UriComponentsBuilder builder = UriComponentsBuilder
-					.fromHttpUrl(appConfig.SALESFORCE_INSTANCE
+					.fromHttpUrl("https://"+instance+"salesforce.com"
 							+ appConfig.QUERY_CONTACT);
 			HttpHeaders headers = createHeaders(token);
 			HttpEntity<Contact> entity = new HttpEntity<>(contact, headers);
@@ -98,16 +100,18 @@ public class ContactService {
 		return exchange.getBody();
 	}
 
-	public String updateContact(Contact newContact, String token) {
+	public String updateContact(Contact newContact, String token,
+			String instance) {
 		ResponseEntity<String> exchange = null;
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(
-					appConfig.SALESFORCE_INSTANCE + appConfig.QUERY_CONTACT
+					"https://"+instance+"salesforce.com" + appConfig.QUERY_CONTACT
 							+ newContact.getId()).queryParam("_HttpMethod",
 					"PATCH");
 			HttpHeaders headers = createHeaders(token);
-			Contact oldContact = this.getContact(newContact.getId(), token);
+			Contact oldContact = this.getContact(newContact.getId(), token,
+					instance);
 			Contact diffContact = this.getDiffContact(oldContact, newContact);
 
 			HttpEntity<Contact> entity = new HttpEntity<>(diffContact, headers);
@@ -161,11 +165,11 @@ public class ContactService {
 		return result;
 	}
 
-	public void deleteContact(Contact contact, String token) {
+	public void deleteContact(Contact contact, String token, String instance) {
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			UriComponentsBuilder builder = UriComponentsBuilder
-					.fromHttpUrl(appConfig.SALESFORCE_INSTANCE
+					.fromHttpUrl("https://"+instance+"salesforce.com"
 							+ appConfig.QUERY_CONTACT + contact.getId());
 			HttpHeaders headers = createHeaders(token);
 			HttpEntity<?> entity = new HttpEntity<>(headers);
@@ -179,8 +183,7 @@ public class ContactService {
 	private HttpHeaders createHeaders(String token) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
-		headers.set("Authorization",
-				"Bearer" + " " + token);
+		headers.set("Authorization", "Bearer" + " " + token);
 		return headers;
 	}
 

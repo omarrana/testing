@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.rdf2salesforce.AccessToken;
 import org.rdf2salesforce.Application;
 import org.rdf2salesforce.model.Contact;
 import org.rdf2salesforce.model.CreateResponse;
@@ -24,11 +25,17 @@ public class ContactServiceTest {
 	@Autowired
 	private LoginService loginService;
 	private String token;
+	private String instance;
 	private Contact contact;
 
 	@Before
 	public void init() {
-		token = loginService.getToken().getAccessToken();
+		AccessToken accessToken = loginService.getToken();
+		token = accessToken.getAccessToken();
+		// i.e. https://eu5.salesforce.com -> we remove https:// and pick the
+		// first part of the url from the array ["eu5", "salesforce", "com"]
+		instance = accessToken.getInstanceUrl().replace("https://", "")
+				.split(".")[0];
 		contact = new Contact();
 		contact.setFamilyName("Nash");
 		contact.setGivenName("John");
@@ -36,49 +43,51 @@ public class ContactServiceTest {
 
 	@Test
 	public void testGetAll() {
-		List<Contact> allContacts = contactService.getAll(token);
+		List<Contact> allContacts = contactService.getAll(token, instance);
 		assertTrue(allContacts.size() > 0);
 	}
 
 	@Test
 	public void testGetContact() {
-		List<Contact> allContacts = contactService.getAll(token);
+		List<Contact> allContacts = contactService.getAll(token, instance);
 		assertTrue(allContacts.size() > 0);
 		Contact firstContact = allContacts.get(0);
 		assertTrue(firstContact.getId() != null);
 		Contact responseContact = contactService.getContact(
-				firstContact.getId(), token);
+				firstContact.getId(), token, instance);
 		assertTrue(responseContact.getId().equals(firstContact.getId()));
 	}
 
 	@Test
 	public void testCreateContact() {
 		CreateResponse createResponse = contactService.createContact(contact,
-				token);
+				token, instance);
 		assertTrue(createResponse.getId() != null);
 	}
 
 	@Test
 	public void testUpdateContact() {
-		List<Contact> allContacts = contactService.getAll(token);
+		List<Contact> allContacts = contactService.getAll(token, instance);
 		assertTrue(allContacts.size() > 0);
 		Contact firstContact = allContacts.get(0);
 		assertTrue(firstContact.getId() != null);
 		firstContact.setGivenName("New Name");
-		contactService.updateContact(firstContact, token);
-		Contact updatedContact = contactService.getContact(firstContact.getId(), token);
-		assertTrue(firstContact.getGivenName().equals(updatedContact.getGivenName()));
+		contactService.updateContact(firstContact, token, instance);
+		Contact updatedContact = contactService.getContact(
+				firstContact.getId(), token, instance);
+		assertTrue(firstContact.getGivenName().equals(
+				updatedContact.getGivenName()));
 	}
 
 	@Test
 	public void testDeleteContact() {
 		CreateResponse createResponse = contactService.createContact(contact,
-				token);
+				token, instance);
 		assertTrue(createResponse.getId() != null);
 		contact.setId(createResponse.getId());
-		contactService.deleteContact(contact, token);
+		contactService.deleteContact(contact, token, instance);
 		Contact deletedContact = contactService.getContact(
-				createResponse.getId(), token);
+				createResponse.getId(), token, instance);
 		assertTrue(deletedContact.getName() == null);
 	}
 

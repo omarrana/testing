@@ -9,8 +9,6 @@ public class AppConfig {
 	
 	@Value("${salesforce.revoke_token}")
 	public String SALESFORCE_REVOKE_TOKEN;
-	@Value("${salesforce.instance}")
-	public String SALESFORCE_INSTANCE;
 	@Value("${client.id}")
 	public String CLIENT_ID;
 	@Value("${client.secret}")
