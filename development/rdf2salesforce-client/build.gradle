@@ -19,6 +19,8 @@ dependencies {
 		exclude module: "spring-boot-starter-logging"
 		exclude module: "logback-classic"
 	}
+	
+	compile("org.springframework.boot:spring-boot-starter-test")
 	compile("commons-beanutils:commons-beanutils:1.9.2")
 	compile("org.springframework:spring-web")
 	compile("commons-io:commons-io:2.4")
