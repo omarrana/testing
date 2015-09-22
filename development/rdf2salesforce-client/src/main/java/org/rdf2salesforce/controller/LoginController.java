@@ -14,7 +14,7 @@ public class LoginController {
 	LoginService loginService;
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String getContact(@RequestParam(value = "clientId") String clientId,
+	public String login(@RequestParam(value = "clientId") String clientId,
 			@RequestParam(value = "clientSecret") String clientSecret,
 			@RequestParam(value = "clientUsername") String clientUsername,
 			@RequestParam(value = "clientPassword") String clientPassword) {
