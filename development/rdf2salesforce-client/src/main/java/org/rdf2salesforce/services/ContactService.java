@@ -1,7 +1,5 @@
 package org.rdf2salesforce.services;
 
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
@@ -9,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.jena.riot.RDFLanguages;
 import org.rdf2salesforce.config.AppConfig;
 import org.rdf2salesforce.model.Contact;
 import org.rdf2salesforce.model.ContactResponse;
@@ -28,11 +25,8 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.ResourceFactory;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.sparql.vocabulary.FOAF;
@@ -82,11 +76,6 @@ public class ContactService {
 		return exchange.getBody();
 	}
 	
-	public String getContactAsRdf(String contactId, String token, String instance){
-		Contact contact = this.getContact(contactId, token, instance);
-		return this.createRdfContact(contact);
-	}
-
 	public CreateResponse createContact(Contact contact, String token, String instance) {
 		ResponseEntity<CreateResponse> exchange = null;
 		try {
@@ -218,18 +207,6 @@ public class ContactService {
 		return resultList;
 	}
 
-	public String createRdfContact(Contact contact) {
-		Model model = ModelFactory.createDefaultModel();
-		String nsEccenca = Odette.getModel().getNsPrefixMap().get("eccenca");
-		Resource personResource = ResourceFactory.createResource(nsEccenca
-				+ contact.getFamilyName());
-		model.add(personResource, RDF.type, FOAF.Person)
-				.add(personResource, FOAF.givenname, contact.getGivenName())
-				.add(personResource, FOAF.family_name, contact.getFamilyName())
-				.write(System.out, RDFLanguages.strLangTurtle);
-		OutputStream outputStream = new ByteArrayOutputStream();
-		model.write(outputStream);
-		return outputStream.toString();
-	}
+
 
 }
