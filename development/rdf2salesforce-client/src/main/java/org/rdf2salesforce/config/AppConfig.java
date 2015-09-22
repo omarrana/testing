@@ -7,6 +7,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AppConfig {
 	
+	@Value("${salesforce.revoke_token}")
+	public String SALESFORCE_REVOKE_TOKEN;
+	@Value("${salesforce.instance}")
+	public String SALESFORCE_INSTANCE;
 	@Value("${client.id}")
 	public String CLIENT_ID;
 	@Value("${client.secret}")
@@ -15,8 +19,8 @@ public class AppConfig {
 	public String USERNAME;
 	@Value("${client.password}")
 	public String PASSWORD;
-	@Value("${login_url}")
-	public String LOGIN_URL;
+	@Value("${salesforce.login_url}")
+	public String SALESFORCE_LOGIN_URL;
 
 	
 	@Value("${query.base}")
