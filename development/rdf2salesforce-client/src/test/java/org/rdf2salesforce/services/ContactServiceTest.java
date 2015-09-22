@@ -8,7 +8,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.rdf2salesforce.AccessToken;
 import org.rdf2salesforce.Application;
 import org.rdf2salesforce.model.Contact;
 import org.rdf2salesforce.model.CreateResponse;
@@ -24,12 +23,12 @@ public class ContactServiceTest {
 	private ContactService contactService;
 	@Autowired
 	private LoginService loginService;
-	private AccessToken token;
+	private String token;
 	private Contact contact;
 
 	@Before
 	public void init() {
-		token = loginService.getToken();
+		token = loginService.getToken().getAccessToken();
 		contact = new Contact();
 		contact.setFamilyName("Nash");
 		contact.setGivenName("John");
