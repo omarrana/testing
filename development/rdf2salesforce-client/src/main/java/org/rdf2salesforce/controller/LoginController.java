@@ -14,14 +14,13 @@ public class LoginController {
 	LoginService loginService;
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(@RequestParam(value = "clientId") String clientId,
+	public AccessToken login(@RequestParam(value = "clientId") String clientId,
 			@RequestParam(value = "clientSecret") String clientSecret,
 			@RequestParam(value = "clientUsername") String clientUsername,
 			@RequestParam(value = "clientPassword") String clientPassword) {
 		AccessToken token = loginService.login(clientId, clientSecret,
 				clientUsername, clientPassword);
-		System.out.println(token.getInstanceUrl());
-		return token.getAccessToken();
+		return token;
 	}
 	
 	@RequestMapping(value = "/logut", method = RequestMethod.GET)
