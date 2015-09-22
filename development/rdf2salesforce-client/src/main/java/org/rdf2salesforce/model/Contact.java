@@ -1,10 +1,20 @@
 package org.rdf2salesforce.model;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
+
+import org.apache.jena.riot.RDFLanguages;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.ResourceFactory;
+import com.hp.hpl.jena.sparql.vocabulary.FOAF;
+import com.hp.hpl.jena.vocabulary.RDF;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -219,6 +229,19 @@ public class Contact {
 			// System.out.println(ex);
 		}
 		return stringBuilder.toString();
+	}
+
+	public String toRdf() {
+		Model model = ModelFactory.createDefaultModel();
+		Resource personResource = ResourceFactory.createResource("https://vocab.eccenca.com/mdm/"
+				+ this.getFamilyName());
+		model.add(personResource, RDF.type, FOAF.Person)
+				.add(personResource, FOAF.givenname, this.getGivenName())
+				.add(personResource, FOAF.family_name, this.getFamilyName())
+				.write(System.out, RDFLanguages.strLangTurtle);
+		OutputStream outputStream = new ByteArrayOutputStream();
+		model.write(outputStream);
+		return outputStream.toString();
 	}
 
 }
