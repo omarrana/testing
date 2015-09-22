@@ -1,7 +1,6 @@
 package org.rdf2salesforce.controller;
 
 import org.rdf2salesforce.AccessToken;
-import org.rdf2salesforce.model.Contact;
 import org.rdf2salesforce.services.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
