@@ -34,8 +34,7 @@ public class ContactServiceTest {
 		token = accessToken.getAccessToken();
 		// i.e. https://eu5.salesforce.com -> we remove https:// and pick the
 		// first part of the url from the array ["eu5", "salesforce", "com"]
-		instance = accessToken.getInstanceUrl().replace("https://", "")
-				.split(".")[0];
+		//instance = accessToken.getInstanceUrl().replace("https://", "").split(".")[0];
 		contact = new Contact();
 		contact.setFamilyName("Nash");
 		contact.setGivenName("John");
@@ -96,10 +95,10 @@ public class ContactServiceTest {
 		ArrayList<Contact> contactsFromRdf = contactService.createFromRdf();
 		assertTrue(contactsFromRdf.size() > 0);
 	}
-
+	
 	@Test
-	public void testCreateRdfContact() {
-		contactService.createRdfContact(contact);
+	public void testWriteContactAsRdf(){
+		System.out.println(contact.toRdf());
 	}
 
 }
