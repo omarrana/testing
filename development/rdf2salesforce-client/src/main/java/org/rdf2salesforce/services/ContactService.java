@@ -1,5 +1,7 @@
 package org.rdf2salesforce.services;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
@@ -78,6 +80,11 @@ public class ContactService {
 					httpError.getStatusCode());
 		}
 		return exchange.getBody();
+	}
+	
+	public String getContactAsRdf(String contactId, String token, String instance){
+		Contact contact = this.getContact(contactId, token, instance);
+		return this.createRdfContact(contact);
 	}
 
 	public CreateResponse createContact(Contact contact, String token, String instance) {
@@ -211,7 +218,7 @@ public class ContactService {
 		return resultList;
 	}
 
-	public void createRdfContact(Contact contact) {
+	public String createRdfContact(Contact contact) {
 		Model model = ModelFactory.createDefaultModel();
 		String nsEccenca = Odette.getModel().getNsPrefixMap().get("eccenca");
 		Resource personResource = ResourceFactory.createResource(nsEccenca
@@ -220,6 +227,9 @@ public class ContactService {
 				.add(personResource, FOAF.givenname, contact.getGivenName())
 				.add(personResource, FOAF.family_name, contact.getFamilyName())
 				.write(System.out, RDFLanguages.strLangTurtle);
+		OutputStream outputStream = new ByteArrayOutputStream();
+		model.write(outputStream);
+		return outputStream.toString();
 	}
 
 }
