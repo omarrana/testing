@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.jena.riot.RDFLanguages;
-import org.rdf2salesforce.AccessToken;
 import org.rdf2salesforce.config.AppConfig;
 import org.rdf2salesforce.model.Contact;
 import org.rdf2salesforce.model.ContactResponse;
@@ -47,10 +46,10 @@ public class ContactService {
 	private static Logger LOGGER = LoggerFactory
 			.getLogger(ContactService.class);
 
-	public List<Contact> getAll(AccessToken token) {
+	public List<Contact> getAll(String token) {
 		RestTemplate restTemplate = new RestTemplate();
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(
-				token.getInstanceUrl() + appConfig.QUERY_BASE).queryParam("q",
+				appConfig.SALESFORCE_INSTANCE + appConfig.QUERY_BASE).queryParam("q",
 				appConfig.QUERY_CONTACT_ALL);
 		HttpHeaders headers = createHeaders(token);
 		HttpEntity<?> entity = new HttpEntity<>(headers);
@@ -60,12 +59,12 @@ public class ContactService {
 		return exchange.getBody().getRecords();
 	}
 
-	public Contact getContact(String contactId, AccessToken token) {
+	public Contact getContact(String contactId, String token) {
 		ResponseEntity<Contact> exchange = null;
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			UriComponentsBuilder builder = UriComponentsBuilder
-					.fromHttpUrl(token.getInstanceUrl()
+					.fromHttpUrl(appConfig.SALESFORCE_INSTANCE
 							+ appConfig.QUERY_CONTACT + contactId);
 			HttpHeaders headers = createHeaders(token);
 			HttpEntity<?> entity = new HttpEntity<>(headers);
@@ -79,12 +78,12 @@ public class ContactService {
 		return exchange.getBody();
 	}
 
-	public CreateResponse createContact(Contact contact, AccessToken token) {
+	public CreateResponse createContact(Contact contact, String token) {
 		ResponseEntity<CreateResponse> exchange = null;
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			UriComponentsBuilder builder = UriComponentsBuilder
-					.fromHttpUrl(token.getInstanceUrl()
+					.fromHttpUrl(appConfig.SALESFORCE_INSTANCE
 							+ appConfig.QUERY_CONTACT);
 			HttpHeaders headers = createHeaders(token);
 			HttpEntity<Contact> entity = new HttpEntity<>(contact, headers);
@@ -99,12 +98,12 @@ public class ContactService {
 		return exchange.getBody();
 	}
 
-	public String updateContact(Contact newContact, AccessToken token) {
+	public String updateContact(Contact newContact, String token) {
 		ResponseEntity<String> exchange = null;
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(
-					token.getInstanceUrl() + appConfig.QUERY_CONTACT
+					appConfig.SALESFORCE_INSTANCE + appConfig.QUERY_CONTACT
 							+ newContact.getId()).queryParam("_HttpMethod",
 					"PATCH");
 			HttpHeaders headers = createHeaders(token);
@@ -162,11 +161,11 @@ public class ContactService {
 		return result;
 	}
 
-	public void deleteContact(Contact contact, AccessToken token) {
+	public void deleteContact(Contact contact, String token) {
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			UriComponentsBuilder builder = UriComponentsBuilder
-					.fromHttpUrl(token.getInstanceUrl()
+					.fromHttpUrl(appConfig.SALESFORCE_INSTANCE
 							+ appConfig.QUERY_CONTACT + contact.getId());
 			HttpHeaders headers = createHeaders(token);
 			HttpEntity<?> entity = new HttpEntity<>(headers);
@@ -177,11 +176,11 @@ public class ContactService {
 		}
 	}
 
-	private HttpHeaders createHeaders(AccessToken token) {
+	private HttpHeaders createHeaders(String token) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
 		headers.set("Authorization",
-				"Bearer" + " " + token.getAccessToken());
+				"Bearer" + " " + token);
 		return headers;
 	}
 
