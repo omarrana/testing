@@ -181,7 +181,7 @@ public class ContactService {
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
 		headers.set("Authorization",
-				token.getTokenType() + " " + token.getAccessToken());
+				"Bearer" + " " + token.getAccessToken());
 		return headers;
 	}
 
