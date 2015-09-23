@@ -237,8 +237,7 @@ public class Contact {
 				+ this.getFamilyName());
 		model.add(personResource, RDF.type, FOAF.Person)
 				.add(personResource, FOAF.givenname, this.getGivenName())
-				.add(personResource, FOAF.family_name, this.getFamilyName())
-				.write(System.out, RDFLanguages.strLangTurtle);
+				.add(personResource, FOAF.family_name, this.getFamilyName());
 		OutputStream outputStream = new ByteArrayOutputStream();
 		model.write(outputStream);
 		return outputStream.toString();
