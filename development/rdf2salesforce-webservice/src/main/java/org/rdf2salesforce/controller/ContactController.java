@@ -41,10 +41,18 @@ public class ContactController {
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public CreateResponse createContact(@RequestParam(value = "token") String token,
+	public CreateResponse createContact(
+			@RequestParam(value = "token") String token,
 			@RequestParam(value = "instance") String instance,
 			@RequestBody Contact contact) {
 		return contactService.createContact(contact, token, instance);
+	}
+
+	@RequestMapping(value = "/", method = RequestMethod.DELETE)
+	public void deleteContact(@PathVariable(value = "id") String id,
+			@RequestParam(value = "token") String token,
+			@RequestParam(value = "instance") String instance) {
+		contactService.deleteContact(id, token, instance);
 	}
 
 }
