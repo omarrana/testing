@@ -161,12 +161,12 @@ public class ContactService {
 		return result;
 	}
 
-	public void deleteContact(Contact contact, String token, String instance) {
+	public void deleteContact(String contactId, String token, String instance) {
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			UriComponentsBuilder builder = UriComponentsBuilder
 					.fromHttpUrl("https://"+instance+".salesforce.com"
-							+ appConfig.QUERY_CONTACT + contact.getId());
+							+ appConfig.QUERY_CONTACT + contactId);
 			HttpHeaders headers = createHeaders(token);
 			HttpEntity<?> entity = new HttpEntity<>(headers);
 			restTemplate.exchange(builder.build().encode().toUri(),

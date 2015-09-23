@@ -34,7 +34,7 @@ public class ContactServiceTest {
 		token = accessToken.getAccessToken();
 		// i.e. https://eu5.salesforce.com -> we remove https:// and pick the
 		// first part of the url from the array ["eu5", "salesforce", "com"]
-		//instance = accessToken.getInstanceUrl().replace("https://", "").split(".")[0];
+		instance = accessToken.getInstanceUrl().replace("https://", "").split("\\.")[0];
 		contact = new Contact();
 		contact.setFamilyName("Nash");
 		contact.setGivenName("John");
@@ -84,7 +84,7 @@ public class ContactServiceTest {
 				token, instance);
 		assertTrue(createResponse.getId() != null);
 		contact.setId(createResponse.getId());
-		contactService.deleteContact(contact, token, instance);
+		contactService.deleteContact(contact.getId(), token, instance);
 		Contact deletedContact = contactService.getContact(
 				createResponse.getId(), token, instance);
 		assertTrue(deletedContact.getName() == null);
