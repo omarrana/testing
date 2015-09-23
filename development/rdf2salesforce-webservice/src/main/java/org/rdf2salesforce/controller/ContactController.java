@@ -39,9 +39,8 @@ public class ContactController {
 		return contactService.getContact(id, token, instance).toRdf();
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
-	public void createContact(@PathVariable(value = "id") String id,
-			@RequestParam(value = "token") String token,
+	@RequestMapping(value = "/", method = RequestMethod.POST)
+	public void createContact(@RequestParam(value = "token") String token,
 			@RequestParam(value = "instance") String instance,
 			@RequestBody Contact contact) {
 		contactService.createContact(contact, token, instance);
