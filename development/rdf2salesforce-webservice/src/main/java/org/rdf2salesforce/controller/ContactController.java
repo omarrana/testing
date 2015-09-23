@@ -3,6 +3,7 @@ package org.rdf2salesforce.controller;
 import java.util.List;
 
 import org.rdf2salesforce.model.Contact;
+import org.rdf2salesforce.model.CreateResponse;
 import org.rdf2salesforce.services.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,10 +41,10 @@ public class ContactController {
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public void createContact(@RequestParam(value = "token") String token,
+	public CreateResponse createContact(@RequestParam(value = "token") String token,
 			@RequestParam(value = "instance") String instance,
 			@RequestBody Contact contact) {
-		contactService.createContact(contact, token, instance);
+		return contactService.createContact(contact, token, instance);
 	}
 
 }
