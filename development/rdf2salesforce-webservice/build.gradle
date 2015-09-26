@@ -8,7 +8,7 @@ apply plugin: 'eclipse'
 apply plugin: 'spring-boot'
 
 jar {
-	baseName = 'rdf2salesforce-client'
+	baseName = 'rdf2salesforce-webservice'
 	version =  '0.1.0'
 }
 
