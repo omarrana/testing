@@ -70,7 +70,7 @@ public class ContactServiceTest {
 		assertTrue(allContacts.size() > 0);
 		Contact firstContact = allContacts.get(0);
 		assertTrue(firstContact.getId() != null);
-		firstContact.setGivenName("New Name");
+		firstContact.setGivenName(firstContact.getName() + "new name part");
 		contactService.updateContact(firstContact, token, instance);
 		Contact updatedContact = contactService.getContact(
 				firstContact.getId(), token, instance);
