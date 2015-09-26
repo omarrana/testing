@@ -54,5 +54,13 @@ public class ContactController {
 			@RequestParam(value = "instance") String instance) {
 		contactService.deleteContact(id, token, instance);
 	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
+	public String updateContact(@PathVariable(value = "id") String id,
+			@RequestParam(value = "token") String token,
+			@RequestParam(value = "instance") String instance,
+			@RequestBody Contact contact) {
+		return contactService.updateContact(contact, token, instance);
+	}
 
 }
