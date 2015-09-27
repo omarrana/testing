@@ -23,7 +23,7 @@ public class LoginController {
 		return token;
 	}
 	
-	@RequestMapping(value = "/logut", method = RequestMethod.GET)
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public void revokeToken(@RequestParam(value = "token") String token) {
 		loginService.revokeToken(token);
 	}
