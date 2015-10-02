@@ -25,6 +25,10 @@ public class Application {
 		LOGGER.info(contact);
 		String rdfContact = service.getContactAsRdf("0032400000BhDdzAAF", login.getAccessToken(), instance);
 		LOGGER.info(rdfContact);
+		String newContact = new String("{\"Name\":\"John Nash\",\"FirstName\":\"John\",\"LastName\":\"Nash\",\"Email\":\"john.nash@example.com\"}");
+		String createResponse = service.createContact(newContact, login.getAccessToken(), instance);
+		LOGGER.info(createResponse);
+		
 	}
 
 }
