@@ -78,8 +78,9 @@ public class Rdf2SalesforceService {
 				HttpMethod.GET, entity, String.class);
 		return exchange.getBody();
 	}
-	
-	public String getContactAsRdf(String contactId, String token, String instance) {
+
+	public String getContactAsRdf(String contactId, String token,
+			String instance) {
 		ResponseEntity<String> exchange = null;
 		RestTemplate restTemplate = new RestTemplate();
 		UriComponentsBuilder builder = UriComponentsBuilder
@@ -100,6 +101,19 @@ public class Rdf2SalesforceService {
 		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
 		headers.set("Authorization", "Bearer" + " " + token);
 		return headers;
+	}
+
+	public String createContact(String contact, String token, String instance) {
+		RestTemplate restTemplate = new RestTemplate();
+		UriComponentsBuilder builder = UriComponentsBuilder
+				.fromHttpUrl("http://localhost:8080/contact/")
+				.queryParam("token", token).queryParam("instance", instance);
+		HttpHeaders headers = createHeaders(token);
+		HttpEntity<String> entity = new HttpEntity<>(contact, headers);
+		ResponseEntity<String> exchange = restTemplate.exchange(builder.build()
+				.encode().toUri(), HttpMethod.POST, entity, String.class);
+
+		return exchange.getBody();
 	}
 
 }
