@@ -230,11 +230,10 @@ public class Contact {
 	}
 
 	public String toRdf() {
-		String foafPrefix = "http://xmlns.com/foaf/0.1/";
 		Model model = ModelFactory.createDefaultModel();
 		Resource personResource = ResourceFactory.createResource(FOAF.getURI()
 				+ this.getFamilyName());
-		model.setNsPrefix("foaf", foafPrefix);
+		model.setNsPrefix("foaf", FOAF.NS);
 		model.add(personResource, RDF.type, FOAF.Person)
 				.add(personResource, FOAF.givenname, this.getGivenName())
 				.add(personResource, FOAF.family_name, this.getFamilyName());
