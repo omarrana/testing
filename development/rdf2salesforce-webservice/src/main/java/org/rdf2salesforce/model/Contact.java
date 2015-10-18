@@ -54,6 +54,9 @@ public class Contact {
 	private String emailAdress;
 	@JsonProperty("Id")
 	private String id;
+	
+	private static String eccencaPrefix = "https://vocab.eccenca.com/mdm/";
+	private static String foafPrefix = "http://xmlns.com/foaf/0.1/";
 
 	public String getAccountId() {
 		return accountId;
@@ -230,9 +233,10 @@ public class Contact {
 	}
 
 	public String toRdf() {
+		
 		Model model = ModelFactory.createDefaultModel();
-		Resource personResource = ResourceFactory.createResource("https://vocab.eccenca.com/mdm/"
-				+ this.getFamilyName());
+		Resource personResource = ResourceFactory.createResource(FOAF.getURI() + this.getFamilyName());
+		model.setNsPrefix("foaf", foafPrefix);
 		model.add(personResource, RDF.type, FOAF.Person)
 				.add(personResource, FOAF.givenname, this.getGivenName())
 				.add(personResource, FOAF.family_name, this.getFamilyName());
