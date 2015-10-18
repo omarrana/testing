@@ -6,6 +6,7 @@ import org.rdf2salesforce.model.Contact;
 import org.rdf2salesforce.model.CreateResponse;
 import org.rdf2salesforce.services.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +41,7 @@ public class ContactController {
 		return contactService.getContact(id, token, instance).toRdf();
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.POST)
+	@RequestMapping(value = "/", method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE })
 	public CreateResponse createContact(
 			@RequestParam(value = "token") String token,
 			@RequestParam(value = "instance") String instance,
@@ -48,16 +49,15 @@ public class ContactController {
 		return contactService.createContact(contact, token, instance);
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public void deleteContact(@PathVariable(value = "id") String id,
 			@RequestParam(value = "token") String token,
 			@RequestParam(value = "instance") String instance) {
 		contactService.deleteContact(id, token, instance);
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
-	public void updateContact(@PathVariable(value = "id") String id,
-			@RequestParam(value = "token") String token,
+	@RequestMapping(value = "/", method = RequestMethod.PUT)
+	public void updateContact(@RequestParam(value = "token") String token,
 			@RequestParam(value = "instance") String instance,
 			@RequestBody Contact contact) {
 		contactService.updateContact(contact, token, instance);
