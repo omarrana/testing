@@ -16,10 +16,14 @@ public class Application {
 				Application.class, args);
 		Rdf2SalesforceService service = ctx
 				.getBean(Rdf2SalesforceService.class);
+		LOGGER.info("# Login...");
 		AccessToken login = service.login();
+		LOGGER.info("# Acces token: " +  login.getAccessToken());
 		String instance = login.getInstanceUrl().replace("https://", "")
 				.split("\\.")[0];
+		LOGGER.info("# Getting all contacts...");
 		String allContacts = service.getAll(login.getAccessToken(), instance);
+		LOGGER.info("# All contacts: ");
 		LOGGER.info(allContacts);
 		String contact = service.getContact("0032400000BhDdzAAF", login.getAccessToken(), instance);
 		LOGGER.info(contact);
