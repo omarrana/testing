@@ -109,11 +109,38 @@ public class Rdf2SalesforceService {
 				.fromHttpUrl("http://localhost:8080/contact/")
 				.queryParam("token", token).queryParam("instance", instance);
 		HttpHeaders headers = createHeaders(token);
+		headers.add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
 		HttpEntity<String> entity = new HttpEntity<>(contact, headers);
 		ResponseEntity<String> exchange = restTemplate.exchange(builder.build()
 				.encode().toUri(), HttpMethod.POST, entity, String.class);
 
 		return exchange.getBody();
+	}
+
+	public void deleteContact(String contactId, String token, String instance) {
+		RestTemplate restTemplate = new RestTemplate();
+		UriComponentsBuilder builder = UriComponentsBuilder
+				.fromHttpUrl("http://localhost:8080/contact/" + contactId)
+				.queryParam("token", token).queryParam("instance", instance);
+		HttpHeaders headers = createHeaders(token);
+		HttpEntity<?> entity = new HttpEntity<>(headers);
+		restTemplate.exchange(builder.build().encode().toUri(),
+				HttpMethod.DELETE, entity, String.class);
+
+	}
+
+	public void updateContact(String contact, String token,
+			String instance) {
+		RestTemplate restTemplate = new RestTemplate();
+		UriComponentsBuilder builder = UriComponentsBuilder
+				.fromHttpUrl("http://localhost:8080/contact/")
+				.queryParam("token", token).queryParam("instance", instance);
+		HttpHeaders headers = createHeaders(token);
+		headers.add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+		HttpEntity<String> entity = new HttpEntity<>(contact, headers);
+		restTemplate.exchange(builder.build().encode().toUri(),
+				HttpMethod.PUT, entity, String.class);
+
 	}
 
 }
